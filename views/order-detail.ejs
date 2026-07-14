@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+<div class="container" style="max-width:640px; padding-top:48px; padding-bottom:60px;">
+  <h1>คำสั่งซื้อ #<%= order.id %></h1>
+  <p>วันที่ <%= order.created_at %> · ยอดรวม ฿<%= (order.total/100).toFixed(2) %></p>
+
+  <% items.forEach(function(it){ %>
+    <div style="margin-bottom:16px;">
+      <h3 style="font-size:1rem;"><%= it.product_name %></h3>
+      <% if (it.delivery_status === 'delivered') { %>
+        <div class="keycard">
+          <span class="kc-label">รหัสของคุณ</span>
+          <div class="kc-code" id="code-<%= it.id %>"><%= it.delivered_code %></div>
+          <div class="kc-row">
+            <span class="badge accent">ส่งมอบแล้ว</span>
+            <button class="btn btn-ghost btn-sm" onclick="copyCode('code-<%= it.id %>', this)">คัดลอก</button>
+          </div>
+        </div>
+      <% } else { %>
+        <div class="card">
+          <span class="badge warn">รอดำเนินการ</span>
+          <p style="margin-top:10px;">บริการนี้ต้องดำเนินการโดยทีมงาน กรุณารอการติดต่อกลับ</p>
+        </div>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <a href="/orders" class="btn btn-ghost">กลับไปประวัติการสั่งซื้อ</a>
+</div>
+<%- include('partials/footer') %>
+<script>
+function copyCode(id, btn) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerText;
+    btn.innerText = 'คัดลอกแล้ว';
+    setTimeout(() => { btn.innerText = original; }, 1500);
+  });
+}
+</script>
+</body>
+</html>

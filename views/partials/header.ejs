@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="brand"><span class="glyph">&#9822;</span> BarbegonWP</a>
+    <nav class="nav">
+      <a href="/">ร้านค้า</a>
+      <% if (user) { %>
+        <a href="/orders">คำสั่งซื้อ</a>
+        <a href="/wallet">เติมเงิน</a>
+        <% if (user.role === 'admin') { %><a href="/admin">แอดมิน</a><% } %>
+        <span class="balance">฿<%= (user.balance/100).toFixed(2) %></span>
+        <form method="POST" action="/logout" style="display:inline">
+          <button class="btn btn-ghost btn-sm" type="submit">ออกจากระบบ</button>
+        </form>
+      <% } else { %>
+        <a href="/login">เข้าสู่ระบบ</a>
+        <a href="/register" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+      <% } %>
+    </nav>
+  </div>
+</header>

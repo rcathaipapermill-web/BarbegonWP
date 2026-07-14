@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/header') %>
+<div class="container section">
+  <h1>แผงควบคุมผู้ดูแลระบบ</h1>
+  <%- include('../partials/admin-tabs', { active: 'dashboard' }) %>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="num"><%= stats.users %></div><div class="lbl">ผู้ใช้ทั้งหมด</div></div>
+    <div class="stat"><div class="num"><%= stats.orders %></div><div class="lbl">คำสั่งซื้อทั้งหมด</div></div>
+    <div class="stat"><div class="num">฿<%= (stats.revenue/100).toFixed(2) %></div><div class="lbl">ยอดขายรวม</div></div>
+  </div>
+
+  <h2>สินค้าใกล้หมดสต็อก</h2>
+  <div class="card" style="padding:0;">
+    <table>
+      <thead><tr><th>สินค้า</th><th>คงเหลือ</th></tr></thead>
+      <tbody>
+        <% stats.lowStock.forEach(function(p){ %>
+          <tr><td><%= p.name %></td><td><span class="badge warn"><%= p.cnt %></span></td></tr>
+        <% }) %>
+        <% if (stats.lowStock.length === 0) { %>
+          <tr><td colspan="2">ไม่มีสินค้าใกล้หมดสต็อก</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+</body>
+</html>

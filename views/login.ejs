@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+<div class="container">
+  <div class="form-panel">
+    <h2>เข้าสู่ระบบ</h2>
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+    <form method="POST" action="/login">
+      <input type="hidden" name="next" value="<%= next %>">
+      <div class="field">
+        <label>ชื่อผู้ใช้หรืออีเมล</label>
+        <input type="text" name="username" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label>รหัสผ่าน</label>
+        <input type="password" name="password" required autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">เข้าสู่ระบบ</button>
+    </form>
+    <p style="margin-top:16px; font-size:0.85rem;">ยังไม่มีบัญชี? <a href="/register" style="color:var(--accent)">สมัครสมาชิก</a></p>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>

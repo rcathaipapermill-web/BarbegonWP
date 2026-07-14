@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="container" style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items:center;">
+    <div>
+      <span class="eyebrow">ส่งมอบอัตโนมัติ · ตลอด 24 ชม.</span>
+      <h1>โค้ดดิจิทัลและบริการ ส่งถึงคุณทันทีที่ชำระเงิน</h1>
+      <p class="lead">เติมเกม โค้ดสินค้าดิจิทัล และบริการต่างๆ ระบบตรวจสอบสต็อกและส่งมอบโค้ดให้อัตโนมัติผ่านกระเป๋าเงินในระบบ</p>
+      <a href="#products" class="btn btn-primary">ดูสินค้าทั้งหมด</a>
+    </div>
+    <div class="keycard">
+      <span class="kc-label">Sample Delivery</span>
+      <div class="kc-code">XXXX-XXXX-XXXX</div>
+      <div class="kc-row">
+        <span class="badge accent">ส่งมอบอัตโนมัติ</span>
+        <span class="badge">ใช้งานได้ทันที</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-head">
+      <h2>สินค้าทั้งหมด</h2>
+    </div>
+    <div class="grid">
+      <% products.forEach(function(p) { %>
+        <a href="/product/<%= p.slug %>" class="card">
+          <span class="badge"><%= p.category_name || 'ทั่วไป' %></span>
+          <h3 style="margin-top:10px; font-size:1.05rem;"><%= p.name %></h3>
+          <p style="font-size:0.85rem; margin-bottom:14px;">
+            <%= (p.description || '').slice(0, 80) %><%= (p.description||'').length > 80 ? '…' : '' %>
+          </p>
+          <div class="kc-row">
+            <span class="price">฿<%= (p.price/100).toFixed(2) %></span>
+            <% if (p.delivery_type === 'code') { %>
+              <% if (p.stock_count > 0) { %>
+                <span class="badge accent">มีสต็อก <%= p.stock_count %></span>
+              <% } else { %>
+                <span class="badge warn">สินค้าหมด</span>
+              <% } %>
+            <% } else { %>
+              <span class="badge">บริการ (ทีมงานติดต่อกลับ)</span>
+            <% } %>
+          </div>
+        </a>
+      <% }) %>
+      <% if (products.length === 0) { %>
+        <p>ยังไม่มีสินค้าในระบบ</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

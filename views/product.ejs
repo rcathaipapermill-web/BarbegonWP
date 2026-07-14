@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+
+<div class="container" style="max-width:640px; padding-top:48px; padding-bottom:60px;">
+  <span class="badge"><%= product.category_name || 'ทั่วไป' %></span>
+  <h1 style="margin-top:12px;"><%= product.name %></h1>
+  <p><%= product.description %></p>
+
+  <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+  <div class="card" style="margin-top:8px;">
+    <div class="kc-row" style="margin-top:0;">
+      <span class="price">฿<%= (product.price/100).toFixed(2) %></span>
+      <% if (product.delivery_type === 'code') { %>
+        <% if (product.stock_count > 0) { %>
+          <span class="badge accent">พร้อมส่งมอบ · เหลือ <%= product.stock_count %></span>
+        <% } else { %>
+          <span class="badge warn">สินค้าหมดชั่วคราว</span>
+        <% } %>
+      <% } else { %>
+        <span class="badge">บริการ · ทีมงานติดต่อกลับภายใน 24 ชม.</span>
+      <% } %>
+    </div>
+
+    <form method="POST" action="/product/<%= product.slug %>/buy" style="margin-top:20px;">
+      <button class="btn btn-primary btn-block" type="submit"
+        <%= (product.delivery_type === 'code' && product.stock_count < 1) ? 'disabled' : '' %>>
+        ซื้อสินค้าด้วยยอดเงินในระบบ
+      </button>
+    </form>
+    <p style="font-size:0.8rem; margin-top:10px;">ยอดเงินจะถูกหักจากกระเป๋าเงินของคุณทันที · <a href="/wallet" style="color:var(--accent)">เติมเงิน</a></p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+</body>
+</html>

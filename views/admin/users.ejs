@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/header') %>
+<div class="container section">
+  <h1>จัดการผู้ใช้</h1>
+  <%- include('../partials/admin-tabs', { active: 'users' }) %>
+  <div class="card" style="padding:0;">
+    <table>
+      <thead><tr><th>ชื่อผู้ใช้</th><th>อีเมล</th><th>บทบาท</th><th>ยอดเงิน</th><th>สมัครเมื่อ</th></tr></thead>
+      <tbody>
+        <% users.forEach(function(u){ %>
+          <tr>
+            <td><%= u.username %></td>
+            <td><%= u.email %></td>
+            <td><span class="badge <%= u.role === 'admin' ? 'accent' : '' %>"><%= u.role %></span></td>
+            <td class="mono">฿<%= (u.balance/100).toFixed(2) %></td>
+            <td><%= u.created_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+</body>
+</html>

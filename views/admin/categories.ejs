@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/header') %>
+<div class="container section">
+  <h1>จัดการหมวดหมู่</h1>
+  <%- include('../partials/admin-tabs', { active: 'categories' }) %>
+
+  <div class="card" style="max-width:420px; margin-bottom:28px;">
+    <h3>เพิ่มหมวดหมู่</h3>
+    <form method="POST" action="/admin/categories">
+      <div class="field">
+        <label>ชื่อหมวดหมู่</label>
+        <input type="text" name="name" required>
+      </div>
+      <button class="btn btn-primary" type="submit">เพิ่ม</button>
+    </form>
+  </div>
+
+  <div class="card" style="padding:0;">
+    <table>
+      <thead><tr><th>ชื่อ</th><th>Slug</th></tr></thead>
+      <tbody>
+        <% categories.forEach(function(c){ %>
+          <tr><td><%= c.name %></td><td class="mono"><%= c.slug %></td></tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+</body>
+</html>

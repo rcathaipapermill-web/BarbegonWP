@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/header') %>
+<div class="container section">
+  <h1>จัดการสินค้า</h1>
+  <%- include('../partials/admin-tabs', { active: 'products' }) %>
+
+  <div class="card" style="max-width:560px; margin-bottom:32px;">
+    <h3>เพิ่มสินค้าใหม่</h3>
+    <form method="POST" action="/admin/products">
+      <div class="field">
+        <label>ชื่อสินค้า</label>
+        <input type="text" name="name" required>
+      </div>
+      <div class="field">
+        <label>หมวดหมู่</label>
+        <select name="category_id">
+          <% categories.forEach(function(c){ %><option value="<%= c.id %>"><%= c.name %></option><% }) %>
+        </select>
+      </div>
+      <div class="field">
+        <label>ราคา (บาท)</label>
+        <input type="number" step="0.01" min="0" name="price" required>
+      </div>
+      <div class="field">
+        <label>รูปแบบการส่งมอบ</label>
+        <select name="delivery_type">
+          <option value="code">โค้ดอัตโนมัติจากสต็อก</option>
+          <option value="manual">บริการ (ทีมงานดำเนินการ)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>รายละเอียดสินค้า</label>
+        <textarea name="description" style="font-family:inherit; min-height:70px;"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">เพิ่มสินค้า</button>
+    </form>
+  </div>
+
+  <h2>สินค้าทั้งหมด</h2>
+  <% products.forEach(function(p){ %>
+    <div class="card" style="margin-bottom:14px;">
+      <div class="kc-row" style="margin-top:0;">
+        <div>
+          <strong><%= p.name %></strong>
+          <div style="font-size:0.8rem; color:var(--text-muted);"><%= p.category_name || '-' %> · ฿<%= (p.price/100).toFixed(2) %> · <%= p.delivery_type === 'code' ? 'สต็อก ' + p.stock_count : 'บริการ' %></div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <% if (p.active) { %><span class="badge accent">เปิดขาย</span><% } else { %><span class="badge warn">ปิดขาย</span><% } %>
+          <form method="POST" action="/admin/products/<%= p.id %>/toggle">
+            <button class="btn btn-ghost btn-sm" type="submit"><%= p.active ? 'ปิดขาย' : 'เปิดขาย' %></button>
+          </form>
+        </div>
+      </div>
+      <% if (p.delivery_type === 'code') { %>
+        <details style="margin-top:12px;">
+          <summary style="cursor:pointer; font-size:0.85rem; color:var(--accent);">เพิ่มโค้ดสต็อก</summary>
+          <form method="POST" action="/admin/products/<%= p.id %>/stock" style="margin-top:10px;">
+            <div class="field">
+              <label>ใส่โค้ด 1 บรรทัดต่อ 1 รายการ</label>
+              <textarea name="codes" placeholder="CODE-0001&#10;CODE-0002"></textarea>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="submit">เพิ่มสต็อก</button>
+          </form>
+        </details>
+      <% } %>
+    </div>
+  <% }) %>
+</div>
+<%- include('../partials/footer') %>
+</body>
+</html>

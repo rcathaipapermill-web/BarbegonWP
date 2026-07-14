@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+<div class="container">
+  <div class="form-panel">
+    <h2>เติมเงินเข้ากระเป๋า</h2>
+    <p style="font-size:0.85rem;">กรอกโค้ดเติมเงินที่ได้รับจากผู้ดูแลระบบ ยอดเงินจะถูกเพิ่มเข้าบัญชีของคุณทันที</p>
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+    <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+    <form method="POST" action="/wallet/redeem">
+      <div class="field">
+        <label>โค้ดเติมเงิน</label>
+        <input type="text" name="code" class="mono" placeholder="TOPUP-XXXXXXXXXX" required style="text-transform:uppercase;">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">เติมเงิน</button>
+    </form>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>

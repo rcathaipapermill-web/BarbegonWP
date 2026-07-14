@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/header') %>
+<div class="container">
+  <div class="form-panel">
+    <h2>สมัครสมาชิก</h2>
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+    <form method="POST" action="/register">
+      <div class="field">
+        <label>ชื่อผู้ใช้</label>
+        <input type="text" name="username" value="<%= form.username || '' %>" required>
+      </div>
+      <div class="field">
+        <label>อีเมล</label>
+        <input type="email" name="email" value="<%= form.email || '' %>" required>
+      </div>
+      <div class="field">
+        <label>รหัสผ่าน (อย่างน้อย 8 ตัวอักษร)</label>
+        <input type="password" name="password" required autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>ยืนยันรหัสผ่าน</label>
+        <input type="password" name="confirm" required autocomplete="new-password">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">สมัครสมาชิก</button>
+    </form>
+    <p style="margin-top:16px; font-size:0.85rem;">มีบัญชีอยู่แล้ว? <a href="/login" style="color:var(--accent)">เข้าสู่ระบบ</a></p>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>
